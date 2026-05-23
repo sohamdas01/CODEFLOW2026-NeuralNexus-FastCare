@@ -2,9 +2,57 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
+import {
+  FileText,
+  Brain,
+  Clock3,
+  ShieldCheck,
+  Users,
+  AlertTriangle,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { testimonials } from "@/lib/data";
+
+
+const features = [
+  {
+    icon: FileText,
+    title: "Multi-Format Uploads",
+    description:
+      "Patients can upload PDFs, scans, and medical receipts so all fragmented records stay in one secure place.",
+  },
+  {
+    icon: Brain,
+    title: "AI-Powered Summarization",
+    description:
+      "FastCare uses NLP to extract key medical details and generate concise clinical summaries automatically.",
+  },
+  {
+    icon: Clock3,
+    title: "Chronological Medical Timeline",
+    description:
+      "Records are organized by date so doctors can quickly see a patient’s history, visits, and treatments over time.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Critical Highlight Detection",
+    description:
+      "Important items like allergies, chronic illnesses, surgeries, and medications are flagged for emergency use.",
+  },
+  {
+    icon: Users,
+    title: "Doctor & Patient Dashboards",
+    description:
+      "Separate dashboards make it easy for patients to upload records and for doctors to review insights instantly.",
+  },
+  // {
+  //   icon: AlertTriangle,
+  //   title: "RAG-Grounded Insights",
+  //   description:
+  //     "Retrieval-Augmented Generation keeps summaries grounded in uploaded records, reducing hallucinations and errors.",
+  // },
+];
 
 
 export default function Home() {
@@ -46,6 +94,92 @@ export default function Home() {
         </div>
       </section>
 
+
+  {/* Features Section */}
+  <section className="py-24 bg-[#0a0a0a]">
+      <div className="container mx-auto px-4">
+
+    {/* Heading */}
+      <div className="text-center max-w-4xl mx-auto mb-16">
+
+      <div className="mb-6 inline-flex items-center rounded-full border border-green-500/20 bg-green-500/10 px-8 py-3">
+        <span className="text-2xl md:text-3xl font-bold tracking-wide text-green-400">
+          Features
+        </span>
+      </div>
+
+      <h2 className="text-4xl md:text-5xl font-bold text-[#f0fdf4]">
+         Everything FastCare Does Best
+      </h2>
+
+      <p className="mt-4 text-lg text-[#6b7280]">
+          Designed to turn scattered patient records into fast, reliable,
+          and doctor-friendly insights.
+      </p>
+
+    </div>
+
+    <div className="mt-16 max-w-7xl mx-auto">
+    {/* Top Row */}
+    <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+        {features.slice(0, 3).map((feature) => {
+        const Icon = feature.icon;
+
+      return (
+        <Card
+          key={feature.title}
+          className="bg-[#111111] border border-[#1f2d1f] rounded-2xl hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.08)] transition-all duration-200"
+        >
+          <CardContent className="p-8">
+            <div className="h-12 w-12 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center">
+              <Icon className="h-5 w-5 text-green-400" />
+            </div>
+
+            <h3 className="mt-5 text-xl font-semibold text-[#f0fdf4]">
+              {feature.title}
+            </h3>
+
+            <p className="mt-3 text-[#a1a1aa] leading-relaxed">
+              {feature.description}
+            </p>
+          </CardContent>
+        </Card>
+      );
+    })}
+  </div>
+
+  {/* Bottom Row */}
+  <div className="mt-8 grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
+    {features.slice(3, 5).map((feature) => {
+      const Icon = feature.icon;
+
+      return (
+        <Card
+          key={feature.title}
+          className="w-full bg-[#111111] border border-[#1f2d1f] rounded-2xl hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.08)] transition-all duration-200"
+        >
+          <CardContent className="p-8">
+            <div className="h-12 w-12 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center">
+              <Icon className="h-5 w-5 text-green-400" />
+            </div>
+
+            <h3 className="mt-5 text-xl font-semibold text-[#f0fdf4]">
+              {feature.title}
+            </h3>
+
+            <p className="mt-3 text-[#a1a1aa] leading-relaxed">
+              {feature.description}
+            </p>
+          </CardContent>
+        </Card>
+        );
+      })}
+      </div>
+    </div>
+  </div>
+</section>
+
+  
       {/* Testimonials Section */}
       <section className="py-24 bg-[#0a0a0a]">
         <div className="container mx-auto px-4">
