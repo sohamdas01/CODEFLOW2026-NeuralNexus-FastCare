@@ -4,9 +4,18 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { connectDB } from "../../../lib/mongodb.js";
 import Patient from "../../../models/Patient.js";
 
-export const dynamic = "force-dynamic";
+    return Response.json({ patients });
+  } catch (err) {
+    console.error("GET /api/patients error:", err);
+    return Response.json(
+      { error: "Server error" },
+      { status: 500 }
+    );
+  }
+}
 
-export async function GET(request) {
+// POST → get or create patient profile (patient)
+export async function POST(req) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id || !session?.user?.isDoctor) {

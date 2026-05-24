@@ -1,5 +1,6 @@
 export { default } from "next-auth/middleware";
 
+//done
 export const config = {
   matcher: [
     "/dashboard/:path*",
