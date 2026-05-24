@@ -3,7 +3,11 @@
 /python-nlp-service/__pycache__/
 /python-nlp-service/samples/
 /python-nlp-service/test_live_api.py
-
+/python-nlp-service/test_mongo.py
+/python-nlp-service/test_pipeline.py
+/python-nlp-service/local_runner.py
+/python-nlp-service/venv
+/python-nlp-service/.env
 # dependencies
 /node_modules
 /.pnp
