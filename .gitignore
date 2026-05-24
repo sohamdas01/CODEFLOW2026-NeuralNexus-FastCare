@@ -1,6 +1,7 @@
 /local_resources/
 /python-nlp-service/venv/
 /python-nlp-service/__pycache__/
+/python-nlp-service/core/__pycache__
 /python-nlp-service/samples/
 /python-nlp-service/test_live_api.py
 /python-nlp-service/test_mongo.py
