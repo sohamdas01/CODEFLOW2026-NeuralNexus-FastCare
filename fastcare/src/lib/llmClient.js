@@ -7,9 +7,9 @@ function getLLM() {
   if (!llm) {
     llm = new ChatOpenAI({
       modelName: "gpt-4o",
-      temperature: 0.1, // Low temperature for clinical accuracy
+      temperature: 0.1, 
       openAIApiKey: process.env.OPENAI_API_KEY,
-      maxTokens: 2000,
+      maxTokens: 5000,
     });
   }
   return llm;

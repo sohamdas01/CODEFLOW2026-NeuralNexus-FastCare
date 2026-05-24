@@ -15,8 +15,8 @@ export async function GET(request, { params }) {
     }
 
     await connectDB();
-
-    const records = await MedicalRecord.find({ patientId: params.id })
+    const { id } = await params;
+    const records = await MedicalRecord.find({ patientId: id})
       .select("cloudinaryUrl publicId reportType processingStatus recordDate createdAt uploadedBy")
       .sort({ createdAt: -1 })
       .lean();

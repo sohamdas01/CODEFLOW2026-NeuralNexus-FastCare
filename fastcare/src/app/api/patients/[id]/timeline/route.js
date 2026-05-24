@@ -18,8 +18,8 @@ export async function GET(request, { params }) {
 
     const { searchParams } = new URL(request.url);
     const reportType = searchParams.get("reportType") || "";
-
-    const query = { patientId: params.id };
+    const { id } = await params;
+    const query =  { patientId: id };
     if (reportType && reportType !== "all") {
       query.reportType = reportType;
     }

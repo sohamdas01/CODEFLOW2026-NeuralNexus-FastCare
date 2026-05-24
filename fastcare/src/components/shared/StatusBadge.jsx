@@ -9,8 +9,8 @@ const STATUS_STYLES = {
   running_ner: "bg-purple-500/10 text-purple-400 border border-purple-500/30",
   structuring: "bg-indigo-500/10 text-indigo-400 border border-indigo-500/30",
   generating_summary: "bg-yellow-500/10 text-yellow-400 border border-yellow-500/30",
-  completed: "bg-success/10 text-success border border-success/30",
-  failed: "bg-critical/10 text-critical border border-critical/30",
+  completed: "bg-green-500/10 text-green-500 border border-green-500/20",
+  failed: "bg-red-500/10 text-red-500 border border-red-500/20",
 };
 
 const STATUS_LABELS = {

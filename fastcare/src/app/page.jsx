@@ -250,7 +250,7 @@
 
 "use client";
 
-import { useUser } from "@clerk/nextjs";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -289,17 +289,16 @@ const features = [
 ];
 
 export default function Home() {
-  const { user, isLoaded } = useUser();
+  const { data: session, status } = useSession();
+  const user = session?.user;
+  const isLoaded = status !== "loading";
   const router = useRouter();
 
   function handleGetStarted() {
     if(!isLoaded) return;
     if (user) {
-      // Already signed in → go to dashboard
-      // dashboard/page.jsx will handle role redirect
       router.push("/dashboard");
     } else {
-      // Not signed in → go to sign up
       router.push("/sign-up");
     }
   }

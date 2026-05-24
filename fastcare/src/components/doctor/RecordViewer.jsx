@@ -16,8 +16,8 @@ export default function RecordViewer({ records, loading, error }) {
 
   if (error) {
     return (
-      <div className="p-4 rounded-xl bg-critical/10 border border-critical/30">
-        <p className="text-critical text-sm">{error}</p>
+      <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
+        <p className="text-red-500 text-sm">{error}</p>
       </div>
     );
   }
@@ -37,11 +37,11 @@ export default function RecordViewer({ records, loading, error }) {
       {records.map((record) => (
         <div
           key={record._id}
-          className="flex items-center gap-4 p-4 rounded-xl bg-surface border border-border hover:border-primary/30 transition-all"
+          className="flex items-center gap-4 p-4 rounded-xl bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition hover:border-green-600/30 transition-all"
         >
           {/* Icon */}
-          <div className="w-10 h-10 rounded-xl bg-surface2 border border-border flex items-center justify-center flex-shrink-0">
-            <FileText className="w-5 h-5 text-accent" />
+          <div className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-[#1f2d1f] flex items-center justify-center flex-shrink-0">
+            <FileText className="w-5 h-5 text-green-400" />
           </div>
 
           {/* Info */}
@@ -50,7 +50,7 @@ export default function RecordViewer({ records, loading, error }) {
               <StatusBadge reportType={record.reportType} />
               <StatusBadge status={record.processingStatus} />
             </div>
-            <div className="flex items-center gap-1.5 text-textmuted text-xs mt-1">
+            <div className="flex items-center gap-1.5 text-[#6b7280] text-xs mt-1">
               <Calendar className="w-3 h-3" />
               {formatDate(record.recordDate || record.createdAt)}
             </div>
@@ -62,7 +62,7 @@ export default function RecordViewer({ records, loading, error }) {
               href={record.cloudinaryUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-accent border border-primary/30 hover:border-primary/50 text-sm font-medium transition-all whitespace-nowrap"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600/10 hover:bg-green-600/20 text-green-400 border border-green-600/30 hover:border-green-600/50 text-sm font-medium transition-all whitespace-nowrap"
             >
               <ExternalLink className="w-4 h-4" />
               View PDF

@@ -107,8 +107,7 @@ export default function PatientDetailPage() {
     let cancelled = false;
 
     async function loadTimeline() {
-      if (!id) return;
-      if (tab !== "timeline" || timeline.length > 0 || timelineLoading) return;
+      if (!id || tab !== "timeline" || timeline.length > 0) return;
 
       setTimelineLoading(true);
       setTimelineError("");
@@ -136,14 +135,13 @@ export default function PatientDetailPage() {
     return () => {
       cancelled = true;
     };
-  }, [tab, id, timeline.length, timelineLoading]);
+  }, [tab, id, timeline.length]);
 
   useEffect(() => {
     let cancelled = false;
 
     async function loadRecords() {
-      if (!id) return;
-      if (tab !== "records" || records.length > 0 || recordsLoading) return;
+      if (!id || tab !== "records" || records.length > 0) return;
 
       setRecordsLoading(true);
       setRecordsError("");
@@ -171,14 +169,13 @@ export default function PatientDetailPage() {
     return () => {
       cancelled = true;
     };
-  }, [tab, id, records.length, recordsLoading]);
+  }, [tab, id, records.length]);
 
   useEffect(() => {
     let cancelled = false;
 
     async function loadHighlights() {
-      if (!id) return;
-      if (tab !== "highlights" || highlights || highlightsLoading) return;
+      if (!id || tab !== "highlights" || highlights) return;
 
       setHighlightsLoading(true);
       setHighlightsError("");
@@ -206,7 +203,7 @@ export default function PatientDetailPage() {
     return () => {
       cancelled = true;
     };
-  }, [tab, id, highlights, highlightsLoading]);
+  }, [tab, id, highlights]);
 
   if (!id) {
     return (
@@ -240,7 +237,7 @@ export default function PatientDetailPage() {
       <div className="max-w-5xl space-y-6">
         <Link
           href="/doctor/patients"
-          className="inline-flex items-center gap-2 text-textmuted hover:text-accent text-sm transition-colors"
+          className="inline-flex items-center gap-2 text-[#6b7280] hover:text-green-400 text-sm transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Patients
@@ -253,17 +250,17 @@ export default function PatientDetailPage() {
         ) : null}
 
         {patient && (
-          <div className="p-6 rounded-2xl bg-surface border border-border">
+          <div className="p-6 rounded-2xl bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition">
             <div className="flex items-start gap-5 flex-wrap">
-              <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
-                <span className="text-accent text-2xl font-bold">
+              <div className="w-14 h-14 rounded-2xl bg-green-600/10 border border-green-600/20 flex items-center justify-center flex-shrink-0">
+                <span className="text-green-400 text-2xl font-bold">
                   {patient.name?.[0]?.toUpperCase() || "P"}
                 </span>
               </div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 flex-wrap mb-2">
-                  <h2 className="text-textprimary text-xl font-bold">
+                  <h2 className="text-[#f0fdf4] text-xl font-bold">
                     {patient.name}
                   </h2>
                   <span
@@ -275,7 +272,7 @@ export default function PatientDetailPage() {
                   </span>
                 </div>
 
-                <div className="flex items-center gap-4 text-textmuted text-sm flex-wrap">
+                <div className="flex items-center gap-4 text-[#6b7280] text-sm flex-wrap">
                   {patient.age ? (
                     <span className="flex items-center gap-1">
                       <User className="w-3.5 h-3.5" />
@@ -305,7 +302,7 @@ export default function PatientDetailPage() {
           </div>
         )}
 
-        <div className="border-b border-border">
+        <div className="border-b border-[#1f2d1f]">
           <div className="flex gap-1 overflow-x-auto">
             {TABS.map(({ key, label }) => (
               <button
@@ -313,8 +310,8 @@ export default function PatientDetailPage() {
                 onClick={() => setTab(key)}
                 className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-all -mb-px whitespace-nowrap ${
                   tab === key
-                    ? "border-primary text-accent"
-                    : "border-transparent text-textmuted hover:text-textprimary"
+                    ? "border-green-600 text-green-400"
+                    : "border-transparent text-[#6b7280] hover:text-[#f0fdf4]"
                 }`}
               >
                 {label}

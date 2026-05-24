@@ -38,6 +38,7 @@ export async function POST(request) {
 
     const uploadResult = await cloudinary.uploader.upload(fileUri, {
       folder: "medical-records",
+      resource_type: "auto",
     });
 
     const newRecord = await MedicalRecord.create({

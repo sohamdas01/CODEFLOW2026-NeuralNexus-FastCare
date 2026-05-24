@@ -15,7 +15,7 @@ export default function LoadingSpinner({ size = "md", label = "" }) {
         style={{ borderTopColor: "var(--primary)" }}
       />
       {label && (
-        <p className="text-textmuted text-sm font-medium animate-pulse">{label}</p>
+        <p className="text-[#6b7280] text-sm font-medium animate-pulse">{label}</p>
       )}
     </div>
   );

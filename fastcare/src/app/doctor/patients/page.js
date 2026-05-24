@@ -38,7 +38,7 @@ export default function DoctorPatientsPage() {
 
         {/* Results info */}
         {!loading && (
-          <p className="text-textmuted text-sm">
+          <p className="text-[#6b7280] text-sm">
             {total === 0 ? "No patients found" : `Showing ${patients.length} of ${total} patients`}
           </p>
         )}
@@ -49,8 +49,8 @@ export default function DoctorPatientsPage() {
             <LoadingSpinner size="lg" label="Loading patients..." />
           </div>
         ) : error ? (
-          <div className="p-4 rounded-xl bg-critical/10 border border-critical/30">
-            <p className="text-critical text-sm">{error}</p>
+          <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
+            <p className="text-red-500 text-sm">{error}</p>
           </div>
         ) : patients.length === 0 ? (
           <EmptyState
@@ -72,17 +72,17 @@ export default function DoctorPatientsPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface border border-border text-textmuted hover:text-textprimary hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition text-[#6b7280] hover:text-[#f0fdf4] hover:border-green-600/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm"
             >
               <ChevronLeft className="w-4 h-4" /> Prev
             </button>
-            <span className="text-textmuted text-sm font-mono">
+            <span className="text-[#6b7280] text-sm font-mono">
               {page} / {totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface border border-border text-textmuted hover:text-textprimary hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition text-[#6b7280] hover:text-[#f0fdf4] hover:border-green-600/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm"
             >
               Next <ChevronRight className="w-4 h-4" />
             </button>

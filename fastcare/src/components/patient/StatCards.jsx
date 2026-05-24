@@ -11,9 +11,9 @@ export default function StatCards({ patient, recordCount }) {
       label: "Total Records",
       value: recordCount ?? patient?.recordCount ?? 0,
       icon: FileText,
-      color: "text-accent",
-      bg: "bg-primary/10",
-      border: "border-primary/20",
+      color: "text-green-400",
+      bg: "bg-green-600/10",
+      border: "border-green-600/20",
     },
     {
       label: "Last Upload",
@@ -35,9 +35,9 @@ export default function StatCards({ patient, recordCount }) {
       label: "Blood Group",
       value: patient?.bloodGroup || "Unknown",
       icon: TrendingUp,
-      color: "text-warning",
-      bg: "bg-warning/10",
-      border: "border-warning/20",
+      color: "text-amber-500",
+      bg: "bg-amber-500/10",
+      border: "border-amber-500/20",
     },
   ];
 
@@ -46,14 +46,14 @@ export default function StatCards({ patient, recordCount }) {
       {stats.map(({ label, value, icon: Icon, color, bg, border }) => (
         <div
           key={label}
-          className={`p-5 rounded-2xl bg-surface border ${border} flex flex-col gap-3`}
+          className={`p-5 rounded-2xl bg-[#111111] border ${border} flex flex-col gap-3`}
         >
           <div className={`w-10 h-10 rounded-xl ${bg} border ${border} flex items-center justify-center`}>
             <Icon className={`w-5 h-5 ${color}`} />
           </div>
           <div>
-            <div className={`text-2xl font-bold font-mono ${color}`}>{value}</div>
-            <div className="text-textmuted text-xs mt-0.5">{label}</div>
+            <div className={`text-4xl font-extrabold text-green-400`}>{value}</div>
+            <div className="text-[#6b7280] text-sm mt-1">{label}</div>
           </div>
         </div>
       ))}

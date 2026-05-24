@@ -1,34 +1,19 @@
 "use client";
-import { useEffect, useState } from "react";
 import {
   Brain, AlertTriangle, Pill,
   Activity, FlaskConical, Clock, FileText
 } from "lucide-react";
 
-export default function MedicalWiki({ patientId }) {
-  const [wiki, setWiki] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchWiki() {
-      try {
-        const res = await fetch(
-          `/api/patients/${patientId}/wiki`
-        );
-        const data = await res.json();
-        setWiki(data.wiki);
-      } catch (err) {
-        console.error("Wiki fetch error:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    if (patientId) fetchWiki();
-  }, [patientId]);
-
+export default function MedicalWiki({ wiki, loading, error }) {
   if (loading) {
     return (
       <p className="text-[#6b7280] text-sm">Loading...</p>
+    );
+  }
+
+  if (error) {
+    return (
+      <p className="text-red-500 text-sm">Error: {error}</p>
     );
   }
 
@@ -51,7 +36,7 @@ export default function MedicalWiki({ patientId }) {
 
       {/* AI Summary */}
       {wiki.aiSummary && (
-        <div className="bg-[#111111] border border-[#1f2d1f] rounded-2xl p-5">
+        <div className="bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-3">
             <Brain className="w-4 h-4 text-green-400" />
             <p className="font-semibold text-[#f0fdf4] text-sm">
@@ -121,7 +106,7 @@ export default function MedicalWiki({ patientId }) {
 
         {/* Conditions */}
         {wiki.conditions?.length > 0 && (
-          <div className="bg-[#111111] border border-[#1f2d1f] rounded-2xl p-5">
+          <div className="bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-3">
               <Activity className="w-4 h-4 text-green-400" />
               <p className="font-semibold text-[#f0fdf4] text-sm">
@@ -140,7 +125,7 @@ export default function MedicalWiki({ patientId }) {
 
         {/* Allergies */}
         {wiki.allergies?.length > 0 && (
-          <div className="bg-[#111111] border border-[#1f2d1f] rounded-2xl p-5">
+          <div className="bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-3">
               <AlertTriangle className="w-4 h-4 text-red-400" />
               <p className="font-semibold text-[#f0fdf4] text-sm">
@@ -162,7 +147,7 @@ export default function MedicalWiki({ patientId }) {
 
         {/* Medications */}
         {wiki.medications?.length > 0 && (
-          <div className="bg-[#111111] border border-[#1f2d1f] rounded-2xl p-5">
+          <div className="bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-3">
               <Pill className="w-4 h-4 text-green-400" />
               <p className="font-semibold text-[#f0fdf4] text-sm">
@@ -193,7 +178,7 @@ export default function MedicalWiki({ patientId }) {
 
         {/* Lab Values */}
         {wiki.labValues?.length > 0 && (
-          <div className="bg-[#111111] border border-[#1f2d1f] rounded-2xl p-5">
+          <div className="bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-3">
               <FlaskConical className="w-4 h-4 text-green-400" />
               <p className="font-semibold text-[#f0fdf4] text-sm">
@@ -224,7 +209,7 @@ export default function MedicalWiki({ patientId }) {
 
       {/* Timeline */}
       {wiki.timeline?.length > 0 && (
-        <div className="bg-[#111111] border border-[#1f2d1f] rounded-2xl p-5">
+        <div className="bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-4">
             <Clock className="w-4 h-4 text-green-400" />
             <p className="font-semibold text-[#f0fdf4] text-sm">

@@ -81,7 +81,7 @@ const Footer = () => {
             <ul className="space-y-3 text-[#6b7280]">
               <li>Next.js</li>
               <li>MongoDB</li>
-              <li>Clerk Auth</li>
+              <li>NextAuth</li>
               <li>RAG + NLP</li>
             </ul>
 

@@ -41,10 +41,10 @@
 //         className={`
 //           relative rounded-2xl border-2 border-dashed transition-all duration-200 cursor-pointer
 //           ${dragOver
-//             ? "border-primary bg-primary/10 glow-green"
+//             ? "border-green-600 bg-green-600/10 shadow-[0_0_20px_rgba(22,163,74,0.1)]"
 //             : file
-//             ? "border-primary/40 bg-primary/5 cursor-default"
-//             : "border-border bg-surface hover:border-primary/40 hover:bg-surface2"
+//             ? "border-green-600/40 bg-green-600/5 cursor-default"
+//             : "border-[#1f2d1f] bg-[#111111] hover:border-green-600/40 hover:bg-[#1a1a1a]"
 //           }
 //         `}
 //       >
@@ -59,14 +59,14 @@
 //         <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
 //           {file ? (
 //             <>
-//               <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-4">
-//                 <FileText className="w-7 h-7 text-accent" />
+//               <div className="w-14 h-14 rounded-2xl bg-green-600/10 border border-green-600/30 flex items-center justify-center mb-4">
+//                 <FileText className="w-7 h-7 text-green-400" />
 //               </div>
-//               <p className="text-textprimary font-semibold text-lg">{file.name}</p>
-//               <p className="text-textmuted text-sm mt-1">{fileSizeMB} MB · PDF</p>
+//               <p className="text-[#f0fdf4] font-semibold text-lg">{file.name}</p>
+//               <p className="text-[#6b7280] text-sm mt-1">{fileSizeMB} MB · PDF</p>
 //               <button
 //                 onClick={(e) => { e.stopPropagation(); setFile(null); }}
-//                 className="mt-4 flex items-center gap-2 px-4 py-2 rounded-lg bg-surface2 hover:bg-critical/10 text-textmuted hover:text-critical border border-border hover:border-critical/30 text-sm transition-all"
+//                 className="mt-4 flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1a1a1a] hover:bg-red-500/10 text-[#6b7280] hover:text-red-500 border border-[#1f2d1f] hover:border-red-500/20 text-sm transition-all"
 //               >
 //                 <X className="w-4 h-4" />
 //                 Remove file
@@ -74,16 +74,16 @@
 //             </>
 //           ) : (
 //             <>
-//               <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center mb-4 transition-colors ${dragOver ? "bg-primary/20 border-primary" : "bg-surface2 border-border"}`}>
-//                 <Upload className={`w-7 h-7 ${dragOver ? "text-accent" : "text-textmuted"}`} />
+//               <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center mb-4 transition-colors ${dragOver ? "bg-green-600/20 border-green-600" : "bg-[#1a1a1a] border-[#1f2d1f]"}`}>
+//                 <Upload className={`w-7 h-7 ${dragOver ? "text-green-400" : "text-[#6b7280]"}`} />
 //               </div>
-//               <p className="text-textprimary font-semibold text-lg">
+//               <p className="text-[#f0fdf4] font-semibold text-lg">
 //                 {dragOver ? "Drop your PDF here" : "Drag & drop your PDF"}
 //               </p>
-//               <p className="text-textmuted text-sm mt-1">
-//                 or <span className="text-accent underline">click to browse</span>
+//               <p className="text-[#6b7280] text-sm mt-1">
+//                 or <span className="text-green-400 underline">click to browse</span>
 //               </p>
-//               <p className="text-textmuted text-xs mt-3">PDF only · Max {MAX_PDF_SIZE_MB}MB</p>
+//               <p className="text-[#6b7280] text-xs mt-3">PDF only · Max {MAX_PDF_SIZE_MB}MB</p>
 //             </>
 //           )}
 //         </div>
@@ -91,30 +91,30 @@
 
 //       {/* Report type selector */}
 //       <div>
-//         <label className="block text-sm font-medium text-textprimary mb-2">
+//         <label className="block text-sm font-medium text-[#f0fdf4] mb-2">
 //           Report Type
 //         </label>
 //         <select
 //           value={reportType}
 //           onChange={(e) => setReportType(e.target.value)}
-//           className="w-full px-4 py-3 rounded-xl bg-surface2 border border-border text-textprimary focus:outline-none focus:border-primary transition-colors text-sm"
+//           className="w-full px-4 py-3 rounded-xl bg-[#1a1a1a] border border-[#1f2d1f] text-[#f0fdf4] focus:outline-none focus:border-green-600 transition-colors text-sm"
 //         >
 //           {REPORT_TYPES.map(({ value, label }) => (
-//             <option key={value} value={value} className="bg-surface2">
+//             <option key={value} value={value} className="bg-[#1a1a1a]">
 //               {label}
 //             </option>
 //           ))}
 //         </select>
-//         <p className="text-textmuted text-xs mt-1.5">
+//         <p className="text-[#6b7280] text-xs mt-1.5">
 //           Don't worry — our AI will also auto-detect the type from the document content.
 //         </p>
 //       </div>
 
 //       {/* Error */}
 //       {error && (
-//         <div className="flex items-start gap-3 p-4 rounded-xl bg-critical/10 border border-critical/30">
-//           <AlertCircle className="w-5 h-5 text-critical flex-shrink-0 mt-0.5" />
-//           <p className="text-critical text-sm">{error}</p>
+//         <div className="flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20">
+//           <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+//           <p className="text-red-500 text-sm">{error}</p>
 //         </div>
 //       )}
 
@@ -125,8 +125,8 @@
 //         className={`
 //           w-full py-3.5 rounded-xl font-semibold text-base transition-all duration-200 flex items-center justify-center gap-3
 //           ${file && !uploading
-//             ? "bg-primary hover:bg-primary-hover text-white glow-green"
-//             : "bg-surface2 text-textmuted cursor-not-allowed border border-border"
+//             ? "bg-green-600 hover:hover:bg-green-700 text-[#f0fdf4] shadow-[0_0_20px_rgba(22,163,74,0.1)]"
+//             : "bg-[#1a1a1a] text-[#6b7280] cursor-not-allowed border border-[#1f2d1f]"
 //           }
 //         `}
 //       >
@@ -278,7 +278,7 @@ export default function UploadZone({ onUpload, uploading }) {
       <button
         onClick={handleSubmit}
         disabled={files.length === 0 || uploading}
-        className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2"
+        className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed text-[#f0fdf4] font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2"
       >
         <Upload className="w-4 h-4" />
         {uploading

@@ -59,7 +59,7 @@ export default function TimelinePage() {
         <div className="flex items-center gap-2 flex-wrap mb-6">
           <button
             onClick={() => setFilter("all")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${filter === "all" ? "bg-primary/15 text-accent border-primary/40" : "bg-surface2 text-textmuted border-border hover:border-primary/30"}`}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${filter === "all" ? "bg-green-600/15 text-green-400 border-green-600/40" : "bg-[#1a1a1a] text-[#6b7280] border-[#1f2d1f] hover:border-green-600/30"}`}
           >
             All
           </button>
@@ -67,7 +67,7 @@ export default function TimelinePage() {
             <button
               key={value}
               onClick={() => setFilter(value)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${filter === value ? "bg-primary/15 text-accent border-primary/40" : "bg-surface2 text-textmuted border-border hover:border-primary/30"}`}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${filter === value ? "bg-green-600/15 text-green-400 border-green-600/40" : "bg-[#1a1a1a] text-[#6b7280] border-[#1f2d1f] hover:border-green-600/30"}`}
             >
               {label}
             </button>
@@ -84,7 +84,7 @@ export default function TimelinePage() {
             title="No records found"
             description={filter === "all" ? "Upload your first medical document to start your timeline." : `No ${filter} records uploaded yet.`}
             action={
-              <Link href="/patient/upload" className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors">
+              <Link href="/patient/upload" className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-green-600 text-[#f0fdf4] text-sm font-medium hover:hover:bg-green-700 transition-colors">
                 <Upload className="w-4 h-4" />
                 Upload Record
               </Link>
@@ -92,7 +92,7 @@ export default function TimelinePage() {
           />
         ) : (
           <div>
-            <p className="text-textmuted text-sm mb-6">
+            <p className="text-[#6b7280] text-sm mb-6">
               {filteredRecords.length} record{filteredRecords.length !== 1 ? "s" : ""} found
             </p>
             {filteredRecords.map((record, index) => (

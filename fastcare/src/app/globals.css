@@ -198,47 +198,6 @@
   background: var(--accent);
 }
 
-/* Clerk */
-
-.cl-rootBox {
-  background: transparent !important;
-}
-
-.cl-card {
-  background: var(--surface) !important;
-
-  border: 1px solid var(--border) !important;
-
-  box-shadow:
-    0 0 40px rgba(22,163,74,.1) !important;
-}
-
-.cl-headerTitle,
-.cl-headerSubtitle,
-.cl-formFieldLabel {
-  color: var(--text-primary) !important;
-}
-
-.cl-formButtonPrimary {
-  background: var(--primary) !important;
-}
-
-.cl-formButtonPrimary:hover {
-  background: var(--primary-hover) !important;
-}
-
-.cl-formFieldInput {
-  background: var(--surface2) !important;
-
-  border-color: var(--border) !important;
-
-  color: var(--text-primary) !important;
-}
-
-.cl-footerActionLink {
-  color: var(--accent) !important;
-}
-
 /* Animations */
 
 @keyframes fadeInUp {

@@ -5,19 +5,19 @@ import { formatRelativeTime } from "../../utils/formatDate.js";
 const SEVERITY_CONFIG = {
   critical: {
     icon: Zap,
-    iconColor: "text-critical",
-    bg: "bg-critical/5",
-    border: "border-critical/20",
-    activeBorder: "border-critical/50",
-    badgeClass: "bg-critical/10 text-critical border-critical/30",
+    iconColor: "text-red-500",
+    bg: "bg-red-500/5",
+    border: "border-red-500/20",
+    activeBorder: "border-red-500/20",
+    badgeClass: "bg-red-500/10 text-red-500 border-red-500/20",
   },
   warning: {
     icon: AlertTriangle,
-    iconColor: "text-warning",
-    bg: "bg-warning/5",
-    border: "border-warning/20",
-    activeBorder: "border-warning/50",
-    badgeClass: "bg-warning/10 text-warning border-warning/30",
+    iconColor: "text-amber-500",
+    bg: "bg-amber-500/5",
+    border: "border-amber-500/20",
+    activeBorder: "border-amber-500/20",
+    badgeClass: "bg-amber-500/10 text-amber-500 border-amber-500/20",
   },
   info: {
     icon: Info,
@@ -38,15 +38,15 @@ export default function AlertItem({ alert, onMarkReviewed }) {
     <div
       className={`p-4 rounded-xl border transition-all duration-200 ${
         isReviewed
-          ? "bg-surface opacity-50 border-border"
+          ? "bg-[#111111] opacity-50 border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition"
           : `${config.bg} ${config.activeBorder} hover:${config.activeBorder}`
       }`}
     >
       <div className="flex items-start gap-3">
         {/* Icon */}
-        <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 ${isReviewed ? "bg-surface2" : `${config.bg} border ${config.border}`}`}>
+        <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 ${isReviewed ? "bg-[#1a1a1a]" : `${config.bg} border ${config.border}`}`}>
           {isReviewed ? (
-            <CheckCircle className="w-4 h-4 text-success" />
+            <CheckCircle className="w-4 h-4 text-green-500" />
           ) : (
             <Icon className={`w-4 h-4 ${config.iconColor}`} />
           )}
@@ -59,11 +59,11 @@ export default function AlertItem({ alert, onMarkReviewed }) {
               <span className={`text-xs font-bold uppercase px-2 py-0.5 rounded-full border ${config.badgeClass}`}>
                 {alert.severity}
               </span>
-              <span className="text-xs text-textmuted font-mono">
+              <span className="text-xs text-[#6b7280] font-mono">
                 {alert.type?.replace(/_/g, " ")}
               </span>
             </div>
-            <span className="text-textmuted text-xs whitespace-nowrap">
+            <span className="text-[#6b7280] text-xs whitespace-nowrap">
               {formatRelativeTime(alert.createdAt)}
             </span>
           </div>
@@ -71,12 +71,12 @@ export default function AlertItem({ alert, onMarkReviewed }) {
           {/* Patient name */}
           {alert.patientId?.name && (
             <div className="flex items-center gap-1.5 mt-1.5 mb-1">
-              <User className="w-3 h-3 text-textmuted" />
-              <span className="text-accent text-xs font-medium">{alert.patientId.name}</span>
+              <User className="w-3 h-3 text-[#6b7280]" />
+              <span className="text-green-400 text-xs font-medium">{alert.patientId.name}</span>
             </div>
           )}
 
-          <p className={`text-sm leading-relaxed mt-1 ${isReviewed ? "text-textmuted" : "text-textprimary"}`}>
+          <p className={`text-sm leading-relaxed mt-1 ${isReviewed ? "text-[#6b7280]" : "text-[#f0fdf4]"}`}>
             {alert.message}
           </p>
 
@@ -84,14 +84,14 @@ export default function AlertItem({ alert, onMarkReviewed }) {
           {!isReviewed && (
             <button
               onClick={() => onMarkReviewed(alert._id)}
-              className="mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface border border-border hover:border-success/40 hover:bg-success/5 text-textmuted hover:text-success text-xs font-medium transition-all"
+              className="mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition hover:border-green-500/20 hover:bg-green-500/5 text-[#6b7280] hover:text-green-500 text-xs font-medium transition-all"
             >
               <CheckCircle className="w-3.5 h-3.5" />
               Mark Reviewed
             </button>
           )}
           {isReviewed && (
-            <span className="mt-2 inline-flex items-center gap-1 text-success text-xs">
+            <span className="mt-2 inline-flex items-center gap-1 text-green-500 text-xs">
               <CheckCircle className="w-3 h-3" />
               Reviewed
             </span>

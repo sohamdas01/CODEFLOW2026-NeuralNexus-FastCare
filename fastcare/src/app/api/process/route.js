@@ -1,3 +1,11 @@
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { connectDB } from "@/lib/mongodb";
+import MedicalRecord from "@/models/MedicalRecord";
+import Patient from "@/models/Patient";
+import { processWithNLP } from "@/services/processingService";
+
 export async function POST(request) {
   let recordId = null;
   try {
@@ -9,32 +17,42 @@ export async function POST(request) {
     await connectDB();
     const body = await request.json();
     recordId = body.recordId;
+    const patientId = body.patientId;
 
     if (!recordId) {
       return NextResponse.json({ error: "recordId is required" }, { status: 400 });
     }
 
-    // Update status step by step
-    await MedicalRecord.findByIdAndUpdate(recordId, { processingStatus: "extracting" });
-    console.log(`[Process] ${recordId} -> extracting`);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    const record = await MedicalRecord.findById(recordId);
+    if (!record) {
+      return NextResponse.json({ error: "Record not found" }, { status: 404 });
+    }
 
-    await MedicalRecord.findByIdAndUpdate(recordId, { processingStatus: "running_ner" });
-    console.log(`[Process] ${recordId} -> running_ner`);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    const patient = await Patient.findById(patientId || record.patientId);
+    if (!patient) {
+      return NextResponse.json({ error: "Patient not found" }, { status: 404 });
+    }
 
-    await MedicalRecord.findByIdAndUpdate(recordId, { processingStatus: "structuring" });
-    console.log(`[Process] ${recordId} -> structuring`);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // We fetch the PDF from Cloudinary into a blob/file format for processWithNLP
+    console.log(`[Process] Downloading PDF from: ${record.cloudinaryUrl}`);
+    const response = await fetch(record.cloudinaryUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to download PDF from Cloudinary. Status: ${response.status} ${response.statusText}`);
+    }
+    const arrayBuffer = await response.arrayBuffer();
+    
+    // Mocking the File object as processingService expects an array of files with .arrayBuffer()
+    const mockFile = {
+      name: "document.pdf",
+      arrayBuffer: async () => arrayBuffer,
+    };
 
-    await MedicalRecord.findByIdAndUpdate(recordId, { processingStatus: "generating_summary" });
-    console.log(`[Process] ${recordId} -> generating_summary`);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // Run the actual NLP processing pipeline asynchronously so we don't block the frontend response
+    processWithNLP(recordId, patient, [mockFile]).catch(err => {
+      console.error("[Process API Background] Error processing NLP:", err);
+    });
 
-    await MedicalRecord.findByIdAndUpdate(recordId, { processingStatus: "completed" });
-    console.log(`[Process] ${recordId} -> completed`);
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, message: "Processing started" });
   } catch (error) {
     console.error("[Process API] Error:", error);
     if (recordId) {

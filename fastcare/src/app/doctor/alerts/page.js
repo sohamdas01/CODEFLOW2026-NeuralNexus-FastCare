@@ -51,12 +51,12 @@ export default function DoctorAlertsPage() {
         <div className="space-y-3">
           {/* Severity filter */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-textmuted text-xs font-medium mr-1">Severity:</span>
+            <span className="text-[#6b7280] text-xs font-medium mr-1">Severity:</span>
             {SEVERITY_TABS.map(({ value, label }) => {
               const activeStyles = {
-                "": "bg-primary/15 text-accent border-primary/40",
-                critical: "bg-critical/15 text-critical border-critical/40",
-                warning: "bg-warning/15 text-warning border-warning/40",
+                "": "bg-green-600/15 text-green-400 border-green-600/40",
+                critical: "bg-red-500/15 text-red-500 border-red-500/20",
+                warning: "bg-amber-500/15 text-amber-500 border-amber-500/20",
                 info: "bg-blue-500/15 text-blue-400 border-blue-500/40",
               };
               return (
@@ -66,7 +66,7 @@ export default function DoctorAlertsPage() {
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                     severity === value
                       ? activeStyles[value]
-                      : "bg-surface2 text-textmuted border-border hover:border-primary/30 hover:text-textprimary"
+                      : "bg-[#1a1a1a] text-[#6b7280] border-[#1f2d1f] hover:border-green-600/30 hover:text-[#f0fdf4]"
                   }`}
                 >
                   {label}
@@ -77,15 +77,15 @@ export default function DoctorAlertsPage() {
 
           {/* Reviewed filter */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-textmuted text-xs font-medium mr-1">Status:</span>
+            <span className="text-[#6b7280] text-xs font-medium mr-1">Status:</span>
             {REVIEWED_TABS.map(({ value, label }) => (
               <button
                 key={value}
                 onClick={() => handleReviewedChange(value)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                   reviewed === value
-                    ? "bg-primary/15 text-accent border-primary/40"
-                    : "bg-surface2 text-textmuted border-border hover:border-primary/30 hover:text-textprimary"
+                    ? "bg-green-600/15 text-green-400 border-green-600/40"
+                    : "bg-[#1a1a1a] text-[#6b7280] border-[#1f2d1f] hover:border-green-600/30 hover:text-[#f0fdf4]"
                 }`}
               >
                 {label}
@@ -96,7 +96,7 @@ export default function DoctorAlertsPage() {
 
         {/* Results count */}
         {!loading && (
-          <p className="text-textmuted text-sm">
+          <p className="text-[#6b7280] text-sm">
             {total === 0
               ? "No alerts found"
               : `Showing ${alerts.length} of ${total} alerts`}
@@ -109,8 +109,8 @@ export default function DoctorAlertsPage() {
             <LoadingSpinner size="lg" label="Loading alerts..." />
           </div>
         ) : error ? (
-          <div className="p-4 rounded-xl bg-critical/10 border border-critical/30">
-            <p className="text-critical text-sm">{error}</p>
+          <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
+            <p className="text-red-500 text-sm">{error}</p>
           </div>
         ) : alerts.length === 0 ? (
           <EmptyState
@@ -140,17 +140,17 @@ export default function DoctorAlertsPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface border border-border text-textmuted hover:text-textprimary hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition text-[#6b7280] hover:text-[#f0fdf4] hover:border-green-600/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm"
             >
               <ChevronLeft className="w-4 h-4" /> Prev
             </button>
-            <span className="text-textmuted text-sm font-mono">
+            <span className="text-[#6b7280] text-sm font-mono">
               {page} / {totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface border border-border text-textmuted hover:text-textprimary hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition text-[#6b7280] hover:text-[#f0fdf4] hover:border-green-600/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm"
             >
               Next <ChevronRight className="w-4 h-4" />
             </button>

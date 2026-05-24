@@ -11,12 +11,12 @@ function EntityTag({ label, items, color }) {
     <div className="flex flex-wrap gap-1.5">
       <span className={`text-xs font-medium ${color} mr-1`}>{label}:</span>
       {items.slice(0, 5).map((item, i) => (
-        <span key={i} className="text-xs px-2 py-0.5 rounded-full bg-surface border border-border text-textmuted font-mono">
+        <span key={i} className="text-xs px-2 py-0.5 rounded-full bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition text-[#6b7280] font-mono">
           {item}
         </span>
       ))}
       {items.length > 5 && (
-        <span className="text-xs text-textmuted">+{items.length - 5} more</span>
+        <span className="text-xs text-[#6b7280]">+{items.length - 5} more</span>
       )}
     </div>
   );
@@ -33,21 +33,21 @@ export default function TimelineItem({ record, isLast }) {
       {/* Timeline line */}
       <div className="flex flex-col items-center">
         <div className={`w-3 h-3 rounded-full border-2 flex-shrink-0 mt-5 ${
-          isCompleted ? "bg-primary border-primary" : "bg-surface2 border-border"
+          isCompleted ? "bg-green-600 border-green-600" : "bg-[#1a1a1a] border-[#1f2d1f]"
         }`} />
         {!isLast && <div className="w-px flex-1 bg-border mt-1" />}
       </div>
 
       {/* Card */}
       <div className="flex-1 mb-6 pb-2">
-        <div className="p-5 rounded-2xl bg-surface border border-border hover:border-primary/30 transition-all duration-200">
+        <div className="p-5 rounded-2xl bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition hover:border-green-600/30 transition-all duration-200">
           {/* Header */}
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex items-center gap-2 flex-wrap">
               <StatusBadge reportType={record.reportType} />
               <StatusBadge status={record.processingStatus} />
             </div>
-            <span className="text-textmuted text-xs font-mono whitespace-nowrap">
+            <span className="text-[#6b7280] text-xs font-mono whitespace-nowrap">
               {formatDate(record.recordDate || record.createdAt)}
             </span>
           </div>
@@ -56,23 +56,23 @@ export default function TimelineItem({ record, isLast }) {
           {isCompleted && (
             <div className="space-y-2 mb-3">
               {sd.conditions?.length > 0 && (
-                <EntityTag label="Conditions" items={sd.conditions} color="text-warning" />
+                <EntityTag label="Conditions" items={sd.conditions} color="text-amber-500" />
               )}
               {ner.drugs?.length > 0 && (
                 <EntityTag label="Drugs" items={ner.drugs} color="text-purple-400" />
               )}
               {ner.diseases?.length > 0 && (
-                <EntityTag label="Diseases" items={ner.diseases} color="text-critical" />
+                <EntityTag label="Diseases" items={ner.diseases} color="text-red-500" />
               )}
             </div>
           )}
 
           {/* Expanded details */}
           {expanded && isCompleted && (
-            <div className="mt-4 pt-4 border-t border-border space-y-3">
+            <div className="mt-4 pt-4 border-t border-[#1f2d1f] space-y-3">
               {sd.medications?.length > 0 && (
                 <div>
-                  <p className="text-xs font-medium text-textmuted mb-2 flex items-center gap-1">
+                  <p className="text-xs font-medium text-[#6b7280] mb-2 flex items-center gap-1">
                     <Pill className="w-3 h-3" /> Medications
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -86,15 +86,15 @@ export default function TimelineItem({ record, isLast }) {
               )}
               {sd.labValues?.length > 0 && (
                 <div>
-                  <p className="text-xs font-medium text-textmuted mb-2 flex items-center gap-1">
+                  <p className="text-xs font-medium text-[#6b7280] mb-2 flex items-center gap-1">
                     <FlaskConical className="w-3 h-3" /> Lab Values
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {sd.labValues.map((lv, i) => (
                       <span key={i} className={`text-xs px-2 py-0.5 rounded-full border font-mono ${
                         lv.isAbnormal
-                          ? "bg-critical/10 text-critical border-critical/30"
-                          : "bg-surface2 text-textmuted border-border"
+                          ? "bg-red-500/10 text-red-500 border-red-500/20"
+                          : "bg-[#1a1a1a] text-[#6b7280] border-[#1f2d1f]"
                       }`}>
                         {lv.name}: {lv.value}{lv.unit ? ` ${lv.unit}` : ""}
                         {lv.isAbnormal && " ⚠"}
@@ -104,23 +104,23 @@ export default function TimelineItem({ record, isLast }) {
                 </div>
               )}
               {sd.allergies?.length > 0 && (
-                <EntityTag label="Allergies" items={sd.allergies} color="text-critical" />
+                <EntityTag label="Allergies" items={sd.allergies} color="text-red-500" />
               )}
             </div>
           )}
 
           {/* Footer */}
-          <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+          <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#1f2d1f]">
             {isCompleted ? (
               <button
                 onClick={() => setExpanded(!expanded)}
-                className="flex items-center gap-1.5 text-textmuted hover:text-accent text-xs transition-colors"
+                className="flex items-center gap-1.5 text-[#6b7280] hover:text-green-400 text-xs transition-colors"
               >
                 {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                 {expanded ? "Hide details" : "Show details"}
               </button>
             ) : (
-              <span className="text-textmuted text-xs">Processing...</span>
+              <span className="text-[#6b7280] text-xs">Processing...</span>
             )}
 
             {record.cloudinaryUrl && (
@@ -128,7 +128,7 @@ export default function TimelineItem({ record, isLast }) {
                 href={record.cloudinaryUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-textmuted hover:text-accent text-xs transition-colors"
+                className="flex items-center gap-1.5 text-[#6b7280] hover:text-green-400 text-xs transition-colors"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 View PDF

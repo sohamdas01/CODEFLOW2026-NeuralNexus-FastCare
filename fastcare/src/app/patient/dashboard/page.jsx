@@ -46,9 +46,9 @@ export default function PatientDashboard() {
   }, [user]);
 
   const quickActions = [
-    { href: "/patient/upload", icon: Upload, label: "Upload Record", color: "text-accent", bg: "bg-primary/10", border: "border-primary/30" },
+    { href: "/patient/upload", icon: Upload, label: "Upload Record", color: "text-green-400", bg: "bg-green-600/10", border: "border-green-600/30" },
     { href: "/patient/timeline", icon: Clock, label: "View Timeline", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/30" },
-    { href: "/patient/emergency-card", icon: CreditCard, label: "Emergency Card", color: "text-critical", bg: "bg-critical/10", border: "border-critical/30" },
+    { href: "/patient/emergency-card", icon: CreditCard, label: "Emergency Card", color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20" },
   ];
 
   return (
@@ -64,21 +64,21 @@ export default function PatientDashboard() {
 
           {/* Quick actions */}
           <div>
-            <h2 className="text-textprimary font-semibold mb-4">Quick Actions</h2>
+            <h2 className="text-[#f0fdf4] font-semibold mb-4">Quick Actions</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {quickActions.map(({ href, icon: Icon, label, color, bg, border }) => (
                 <Link
                   key={href}
                   href={href}
-                  className={`flex items-center gap-4 p-5 rounded-2xl bg-surface border ${border} hover:glow-green hover:-translate-y-0.5 transition-all duration-200 group`}
+                  className={`flex items-center gap-4 p-5 rounded-2xl bg-[#111111] border ${border} hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] hover:-translate-y-0.5 transition-all duration-200 group`}
                 >
                   <div className={`w-11 h-11 rounded-xl ${bg} border ${border} flex items-center justify-center`}>
                     <Icon className={`w-5 h-5 ${color}`} />
                   </div>
                   <div className="flex-1">
-                    <div className="text-textprimary font-medium">{label}</div>
+                    <div className="text-[#f0fdf4] font-medium">{label}</div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-textmuted group-hover:text-accent transition-colors" />
+                  <ArrowRight className="w-4 h-4 text-[#6b7280] group-hover:text-green-400 transition-colors" />
                 </Link>
               ))}
             </div>
@@ -87,31 +87,31 @@ export default function PatientDashboard() {
           {/* Recent records */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-textprimary font-semibold">Recent Uploads</h2>
-              <Link href="/patient/timeline" className="text-accent text-sm hover:text-primary transition-colors flex items-center gap-1">
+              <h2 className="text-[#f0fdf4] font-semibold">Recent Uploads</h2>
+              <Link href="/patient/timeline" className="text-green-400 text-sm hover:text-green-600 transition-colors flex items-center gap-1">
                 View all <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
             {records.length === 0 ? (
-              <div className="p-8 rounded-2xl bg-surface border border-border text-center">
-                <FileText className="w-10 h-10 text-textmuted mx-auto mb-3" />
-                <p className="text-textprimary font-medium mb-1">No records yet</p>
-                <p className="text-textmuted text-sm mb-4">Upload your first medical PDF to get started</p>
-                <Link href="/patient/upload" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors">
+              <div className="p-8 rounded-2xl bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition text-center">
+                <FileText className="w-10 h-10 text-[#6b7280] mx-auto mb-3" />
+                <p className="text-[#f0fdf4] font-medium mb-1">No records yet</p>
+                <p className="text-[#6b7280] text-sm mb-4">Upload your first medical PDF to get started</p>
+                <Link href="/patient/upload" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-[#f0fdf4] text-sm font-medium hover:hover:bg-green-700 transition-colors">
                   <Upload className="w-4 h-4" /> Upload Record
                 </Link>
               </div>
             ) : (
               <div className="space-y-3">
                 {records.map((r) => (
-                  <div key={r._id} className="flex items-center gap-4 p-4 rounded-xl bg-surface border border-border">
-                    <FileText className="w-5 h-5 text-accent flex-shrink-0" />
+                  <div key={r._id} className="flex items-center gap-4 p-4 rounded-xl bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition">
+                    <FileText className="w-5 h-5 text-green-400 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <StatusBadge reportType={r.reportType} />
                         <StatusBadge status={r.processingStatus} />
                       </div>
-                      <p className="text-textmuted text-xs mt-1">{formatDate(r.recordDate || r.createdAt)}</p>
+                      <p className="text-[#6b7280] text-xs mt-1">{formatDate(r.recordDate || r.createdAt)}</p>
                     </div>
                   </div>
                 ))}

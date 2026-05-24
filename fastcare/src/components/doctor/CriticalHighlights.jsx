@@ -14,8 +14,8 @@ export default function CriticalHighlights({ highlights, loading, error }) {
 
   if (error) {
     return (
-      <div className="p-4 rounded-xl bg-critical/10 border border-critical/30">
-        <p className="text-critical text-sm">{error}</p>
+      <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
+        <p className="text-red-500 text-sm">{error}</p>
       </div>
     );
   }
@@ -39,8 +39,8 @@ export default function CriticalHighlights({ highlights, loading, error }) {
       {hasCritical && (
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <Flag className="w-5 h-5 text-critical" />
-            <h3 className="text-critical font-bold text-base">
+            <Flag className="w-5 h-5 text-red-500" />
+            <h3 className="text-red-500 font-bold text-base">
               Critical Flags ({highlights.criticalFlags.length})
             </h3>
           </div>
@@ -48,10 +48,10 @@ export default function CriticalHighlights({ highlights, loading, error }) {
             {highlights.criticalFlags.map((flag, i) => (
               <div
                 key={i}
-                className="flex items-start gap-3 p-4 rounded-xl bg-critical/10 border border-critical/30"
+                className="flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20"
               >
-                <AlertTriangle className="w-4 h-4 text-critical flex-shrink-0 mt-0.5" />
-                <p className="text-critical text-sm leading-relaxed">{flag}</p>
+                <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+                <p className="text-red-500 text-sm leading-relaxed">{flag}</p>
               </div>
             ))}
           </div>
@@ -62,8 +62,8 @@ export default function CriticalHighlights({ highlights, loading, error }) {
       {hasContradictions && (
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <ShieldOff className="w-5 h-5 text-warning" />
-            <h3 className="text-warning font-bold text-base">
+            <ShieldOff className="w-5 h-5 text-amber-500" />
+            <h3 className="text-amber-500 font-bold text-base">
               Contradictions ({highlights.contradictions.length})
             </h3>
           </div>
@@ -73,33 +73,33 @@ export default function CriticalHighlights({ highlights, loading, error }) {
                 key={i}
                 className={`p-5 rounded-xl border ${
                   c.severity === "critical"
-                    ? "bg-critical/10 border-critical/40"
-                    : "bg-warning/10 border-warning/40"
+                    ? "bg-red-500/10 border-red-500/20"
+                    : "bg-amber-500/10 border-amber-500/20"
                 }`}
               >
                 <div className="flex items-center gap-3 mb-2">
                   <span
                     className={`text-xs font-bold uppercase px-2.5 py-1 rounded-full ${
                       c.severity === "critical"
-                        ? "bg-critical/20 text-critical"
-                        : "bg-warning/20 text-warning"
+                        ? "bg-red-500/20 text-red-500"
+                        : "bg-amber-500/20 text-amber-500"
                     }`}
                   >
                     {c.severity}
                   </span>
-                  <span className="text-textmuted text-xs font-mono">
+                  <span className="text-[#6b7280] text-xs font-mono">
                     {c.type?.replace(/_/g, " ")}
                   </span>
                 </div>
                 <p
                   className={`text-sm leading-relaxed ${
-                    c.severity === "critical" ? "text-critical/90" : "text-warning/90"
+                    c.severity === "critical" ? "text-red-500/90" : "text-amber-500/90"
                   }`}
                 >
                   {c.description}
                 </p>
                 {c.recordIds?.length > 0 && (
-                  <p className="text-textmuted text-xs mt-2 font-mono">
+                  <p className="text-[#6b7280] text-xs mt-2 font-mono">
                     Affected records: {c.recordIds.length}
                   </p>
                 )}

@@ -87,8 +87,8 @@ export default function ProfilePage() {
     }
   }
 
-  const inputClass = "w-full px-4 py-3 rounded-xl bg-surface2 border border-border text-textprimary focus:outline-none focus:border-primary transition-colors text-sm placeholder-textmuted";
-  const labelClass = "block text-sm font-medium text-textprimary mb-1.5";
+  const inputClass = "w-full px-4 py-3 rounded-xl bg-[#1a1a1a] border border-[#1f2d1f] text-[#f0fdf4] focus:outline-none focus:border-green-600 transition-colors text-sm placeholder-textmuted";
+  const labelClass = "block text-sm font-medium text-[#f0fdf4] mb-1.5";
 
   return (
     <DashboardLayout title="Profile" subtitle="Manage your medical profile">
@@ -99,15 +99,15 @@ export default function ProfilePage() {
       ) : (
         <div className="max-w-3xl space-y-6">
           {/* Tabs */}
-          <div className="flex gap-2 border-b border-border pb-0">
+          <div className="flex gap-2 border-b border-[#1f2d1f] pb-0">
             {["medical", "account"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-all -mb-px ${
                   activeTab === tab
-                    ? "border-primary text-accent"
-                    : "border-transparent text-textmuted hover:text-textprimary"
+                    ? "border-green-600 text-green-400"
+                    : "border-transparent text-[#6b7280] hover:text-[#f0fdf4]"
                 }`}
               >
                 {tab === "medical" ? "Medical Info" : "Account Settings"}
@@ -117,8 +117,8 @@ export default function ProfilePage() {
 
           {activeTab === "medical" ? (
             <form onSubmit={handleSave} className="space-y-6">
-              <div className="p-6 rounded-2xl bg-surface border border-border space-y-5">
-                <h3 className="text-textprimary font-semibold">Medical Information</h3>
+              <div className="p-6 rounded-2xl bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition space-y-5">
+                <h3 className="text-[#f0fdf4] font-semibold">Medical Information</h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
@@ -129,7 +129,7 @@ export default function ProfilePage() {
                       className={inputClass}
                     >
                       {BLOOD_GROUPS.map((bg) => (
-                        <option key={bg} value={bg} className="bg-surface2">{bg}</option>
+                        <option key={bg} value={bg} className="bg-[#1a1a1a]">{bg}</option>
                       ))}
                     </select>
                   </div>
@@ -145,8 +145,8 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <div className="p-6 rounded-2xl bg-surface border border-border space-y-5">
-                <h3 className="text-textprimary font-semibold">Emergency Contact</h3>
+              <div className="p-6 rounded-2xl bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition space-y-5">
+                <h3 className="text-[#f0fdf4] font-semibold">Emergency Contact</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="sm:col-span-2">
                     <label className={labelClass}>Full Name</label>
@@ -182,23 +182,23 @@ export default function ProfilePage() {
               </div>
 
               {error && (
-                <div className="flex items-center gap-2 p-4 rounded-xl bg-critical/10 border border-critical/30">
-                  <AlertCircle className="w-4 h-4 text-critical flex-shrink-0" />
-                  <p className="text-critical text-sm">{error}</p>
+                <div className="flex items-center gap-2 p-4 rounded-xl bg-red-500/10 border border-red-500/20">
+                  <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
+                  <p className="text-red-500 text-sm">{error}</p>
                 </div>
               )}
 
               {saved && (
-                <div className="flex items-center gap-2 p-4 rounded-xl bg-success/10 border border-success/30">
-                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" />
-                  <p className="text-success text-sm">Profile saved successfully!</p>
+                <div className="flex items-center gap-2 p-4 rounded-xl bg-green-500/10 border border-green-500/20">
+                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  <p className="text-green-500 text-sm">Profile saved successfully!</p>
                 </div>
               )}
 
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover text-white font-medium transition-all disabled:opacity-60"
+                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-green-600 hover:hover:bg-green-700 text-[#f0fdf4] font-medium transition-all disabled:opacity-60"
               >
                 {saving ? (
                   <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
@@ -209,16 +209,16 @@ export default function ProfilePage() {
               </button>
             </form>
           ) : (
-            <div className="p-6 rounded-2xl bg-surface border border-border">
-              <h3 className="text-xl font-semibold mb-4 text-textprimary">Account Settings</h3>
+            <div className="p-6 rounded-2xl bg-[#111111] border border-[#1f2d1f] hover:border-green-800 hover:shadow-[0_0_20px_rgba(22,163,74,0.1)] transition">
+              <h3 className="text-xl font-semibold mb-4 text-[#f0fdf4]">Account Settings</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-textmuted mb-1">Name</label>
-                  <p className="text-textprimary bg-surface2 px-4 py-2 rounded-lg">{session?.user?.name}</p>
+                  <label className="block text-sm font-medium text-[#6b7280] mb-1">Name</label>
+                  <p className="text-[#f0fdf4] bg-[#1a1a1a] px-4 py-2 rounded-lg">{session?.user?.name}</p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-textmuted mb-1">Email</label>
-                  <p className="text-textprimary bg-surface2 px-4 py-2 rounded-lg">{session?.user?.email}</p>
+                  <label className="block text-sm font-medium text-[#6b7280] mb-1">Email</label>
+                  <p className="text-[#f0fdf4] bg-[#1a1a1a] px-4 py-2 rounded-lg">{session?.user?.email}</p>
                 </div>
               </div>
             </div>

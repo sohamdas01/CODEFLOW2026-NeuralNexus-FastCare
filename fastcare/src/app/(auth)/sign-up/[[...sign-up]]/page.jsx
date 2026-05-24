@@ -42,7 +42,7 @@ export default function SignUpPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-black">
       <form onSubmit={handleSubmit} className="bg-[#0a0a0a] p-8 rounded-xl border border-[#1f2d1f] w-full max-w-md">
-        <h2 className="text-2xl text-white font-bold mb-6 text-center">Sign Up</h2>
+        <h2 className="text-2xl text-[#f0fdf4] font-bold mb-6 text-center">Sign Up</h2>
         {error && <p className="text-red-500 mb-4 text-center text-sm">{error}</p>}
         <div className="mb-4">
           <label className="block text-gray-400 mb-2 text-sm">Name</label>
@@ -50,7 +50,7 @@ export default function SignUpPage() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-3 rounded-lg bg-black border border-[#1f2d1f] text-white"
+            className="w-full p-3 rounded-lg bg-black border border-[#1f2d1f] text-[#f0fdf4]"
             required
           />
         </div>
@@ -60,7 +60,7 @@ export default function SignUpPage() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 rounded-lg bg-black border border-[#1f2d1f] text-white"
+            className="w-full p-3 rounded-lg bg-black border border-[#1f2d1f] text-[#f0fdf4]"
             required
           />
         </div>
@@ -70,7 +70,7 @@ export default function SignUpPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 rounded-lg bg-black border border-[#1f2d1f] text-white"
+            className="w-full p-3 rounded-lg bg-black border border-[#1f2d1f] text-[#f0fdf4]"
             required
           />
         </div>
@@ -84,7 +84,7 @@ export default function SignUpPage() {
           />
           <label htmlFor="isDoctor" className="text-gray-400 text-sm">I am a doctor</label>
         </div>
-        <button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition">
+        <button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-[#f0fdf4] font-semibold py-3 rounded-xl transition">
           Sign Up
         </button>
         <p className="mt-4 text-center text-sm text-gray-400">
