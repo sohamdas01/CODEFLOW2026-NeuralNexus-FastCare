@@ -4,14 +4,19 @@ import logging
 import os
 import io
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from pydantic import BaseModel
 import pdfplumber
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from motor.motor_asyncio import AsyncIOMotorClient
+from pydantic import BaseModel
 
 from core.date_parser import extract_date
-from core.extractor import parse_medical_page   # we now use the page‑level function directly
+from core.extractor import parse_medical_page
+
+from dotenv import load_dotenv
+load_dotenv()
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -22,8 +27,12 @@ HOST               = os.getenv("HOST", "0.0.0.0")
 PORT               = int(os.getenv("PORT", "8000"))
 LOG_LEVEL          = os.getenv("LOG_LEVEL", "INFO")
 MAX_FILE_MB        = int(os.getenv("MAX_FILE_MB", "20"))
-MAX_TEXT_CHARS     = int(os.getenv("MAX_TEXT_CHARS", "100000"))  # ~25k tokens
+MAX_TEXT_CHARS     = int(os.getenv("MAX_TEXT_CHARS", "100000"))
 MAX_FILE_BYTES     = MAX_FILE_MB * 1024 * 1024
+
+MONGO_URI          = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+MONGO_DB           = os.getenv("MONGO_DB", "fastcare")
+MONGO_COLLECTION   = os.getenv("MONGO_COLLECTION", "patient_records")
 
 logging.basicConfig(
     level=getattr(logging, LOG_LEVEL),
@@ -31,13 +40,44 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Thread pool for blocking PDF work — keeps the async event loop free
 _executor = ThreadPoolExecutor(max_workers=int(os.getenv("WORKER_THREADS", "4")))
 
 # ---------------------------------------------------------------------------
-# FastAPI app
+# FastAPI app + MongoDB client
 # ---------------------------------------------------------------------------
-app = FastAPI(title=APP_TITLE)
+
+# Motor client is created once at startup and reused across requests.
+# It is intentionally module-level so the connection pool is shared.
+_mongo_client: Optional[AsyncIOMotorClient] = None
+
+
+def _get_collection():
+    return _mongo_client[MONGO_DB][MONGO_COLLECTION]
+
+
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    global _mongo_client
+    _mongo_client = AsyncIOMotorClient(MONGO_URI)
+    try:
+        result = await _mongo_client.admin.command("ping")
+        print("Ping result:", result)
+        logger.info("Connected to MongoDB at %s (db: %s)", MONGO_URI, MONGO_DB)
+    except Exception as exc:
+        logger.warning("MongoDB ping failed at startup: %s", exc)
+
+    yield  # app runs here
+
+    # Shutdown
+    if _mongo_client:
+        _mongo_client.close()
+        logger.info("MongoDB connection closed.")
+
+app = FastAPI(title=APP_TITLE, lifespan=lifespan)
+
 
 # ---------------------------------------------------------------------------
 # Pydantic schemas
@@ -48,9 +88,12 @@ class ProcessedRecord(BaseModel):
     date: Optional[str] = None
     raw_text: str
 
+
 class IngestionResponse(BaseModel):
     patient: Dict[str, Any]
     records: List[ProcessedRecord]
+    mongo_id: str   # inserted document _id, useful for downstream reference
+
 
 # ---------------------------------------------------------------------------
 # Core processing
@@ -60,8 +103,7 @@ def _page_dict_to_text(page_data: dict) -> str:
     """
     Merge a parse_medical_page dict into a single plain string.
     Combines flowing prose text and any OCR hits from embedded images.
-    Tables are intentionally excluded — they are structured data and
-    would add noise when passed as plain text to an LLM.
+    Tables are intentionally excluded — structured data adds noise for LLMs.
     """
     parts = []
 
@@ -69,7 +111,6 @@ def _page_dict_to_text(page_data: dict) -> str:
     if isinstance(text, str) and text.strip():
         parts.append(text)
     elif isinstance(text, (list, tuple)):
-        # Defensive: flatten if something upstream returned a sequence
         joined = " ".join(str(t) for t in text if t)
         if joined.strip():
             parts.append(joined)
@@ -88,19 +129,17 @@ def _process_single_pdf(contents: bytes, filename: str) -> ProcessedRecord:
 
     Raises
     ------
-    ValueError   — unreadable / malformed PDF
-    RuntimeError — processing failed after opening
+    ValueError — unreadable / malformed PDF
     """
     raw_text_parts: List[str] = []
     doc_date: Optional[str] = None
     total_chars = 0
 
     try:
-        # Open the PDF from memory – pdfplumber accepts a BytesIO object
         with pdfplumber.open(io.BytesIO(contents)) as pdf:
             for page in pdf.pages:
-                page_data = parse_medical_page(page)   # uses default OCR settings
-                page_num = page_data["meta"]["page_number"]
+                page_data = parse_medical_page(page)
+                page_num  = page_data["meta"]["page_number"]
 
                 if page_data["meta"]["errors"]:
                     logger.warning(
@@ -114,11 +153,9 @@ def _process_single_pdf(contents: bytes, filename: str) -> ProcessedRecord:
                     logger.debug("Page %d of %s: no extractable text.", page_num, filename)
                     continue
 
-                # Date: first hit per document wins
                 if doc_date is None:
                     doc_date = extract_date(page_text)
 
-                # Accumulate raw text with provenance markers, up to the char cap
                 if total_chars < MAX_TEXT_CHARS:
                     marker_open  = f"\n--- [SOURCE: {filename} | PAGE: {page_num}] ---\n"
                     marker_close = f"\n--- [END: {filename} | PAGE: {page_num}] ---\n"
@@ -142,20 +179,51 @@ def _process_single_pdf(contents: bytes, filename: str) -> ProcessedRecord:
         raw_text="".join(raw_text_parts),
     )
 
+
 # ---------------------------------------------------------------------------
 # Health check
 # ---------------------------------------------------------------------------
 
 @app.get("/health")
 async def health():
-    """Liveness / readiness probe."""
-    return {"status": "healthy"}
+    """Liveness / readiness probe. Also checks MongoDB connectivity."""
+    try:
+        await _mongo_client.admin.command("ping")
+        mongo_status = "healthy"
+    except Exception as exc:
+        logger.error("MongoDB ping failed: %s", exc)
+        mongo_status = "unavailable"
+    return {"status": "healthy", "mongo": mongo_status}
+
 
 # ---------------------------------------------------------------------------
 # Main ingestion endpoint
 # ---------------------------------------------------------------------------
 
-@app.post("/process-documents", response_model=IngestionResponse)
+@app.post(
+    "/process-documents",
+    response_model=IngestionResponse,
+    openapi_extra={
+        "requestBody": {
+            "content": {
+                "multipart/form-data": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "patient_name":    {"type": "string"},
+                            "patient_details": {"type": "string"},
+                            "files": {
+                                "type": "array",
+                                "items": {"type": "string", "format": "binary"},
+                            },
+                        },
+                        "required": ["patient_name", "patient_details", "files"],
+                    }
+                }
+            }
+        }
+    },
+)
 async def process_documents(
     patient_name:    str              = Form(...),
     patient_details: str              = Form(...),
@@ -163,7 +231,7 @@ async def process_documents(
 ):
     """
     Accept patient demographics and one or more PDF files.
-    Returns structured provenance-marked text ready to pass to an LLM.
+    Extracts text, writes the full result to MongoDB, and returns it.
     """
     # Parse patient details
     try:
@@ -201,7 +269,6 @@ async def process_documents(
             logger.info("Successfully processed %s.", file.filename)
 
         except ValueError as exc:
-            # Malformed PDF — skip and continue with the rest of the batch
             logger.error("Skipping malformed PDF '%s': %s", file.filename, exc)
             continue
 
@@ -212,10 +279,30 @@ async def process_documents(
                 detail=f"Internal error while processing {file.filename}.",
             )
 
+    # ── Write to MongoDB ──
+    document = {
+        "patient": {"name": patient_name, "details": details},
+        "records": [r.model_dump() for r in processed_records],
+        "ingested_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+    try:
+        result    = await _get_collection().insert_one(document)
+        mongo_id  = str(result.inserted_id)
+        logger.info("Saved ingestion result to MongoDB with _id: %s", mongo_id)
+    except Exception:
+        logger.exception("Failed to write ingestion result to MongoDB.")
+        raise HTTPException(
+            status_code=500,
+            detail="Processed successfully but failed to persist to database.",
+        )
+
     return IngestionResponse(
         patient={"name": patient_name, "details": details},
         records=processed_records,
+        mongo_id=mongo_id,
     )
+
 
 # ---------------------------------------------------------------------------
 # Entrypoint

@@ -77,12 +77,12 @@ def _print_record_summary(record, index: int):
     print(f"  Raw text chars: {len(record.raw_text)}")
 
     # Show first 800 chars of extracted text as a sanity check
-    preview = record.raw_text[:800].strip()
+    preview = record.raw_text[:].strip()
     if preview:
         print(f"\n  --- TEXT PREVIEW (first 800 chars) ---")
         print(f"  {preview.replace(chr(10), chr(10) + '  ')}")
-        if len(record.raw_text) > 800:
-            print(f"  ... [{len(record.raw_text) - 800} more chars]")
+        # if len(record.raw_text) > 800:
+        #     print(f"  ... [{len(record.raw_text) - 800} more chars]")
     else:
         print("  (no text extracted)")
 
