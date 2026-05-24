@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: ['@clerk/backend'],
-  },
+  /* config options here */
 };
 
 export default nextConfig;

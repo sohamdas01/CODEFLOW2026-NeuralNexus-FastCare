@@ -1,6 +1,6 @@
-import { connectDB } from "../lib/mongodb.js";
+import connectDB  from "../lib/mongodb.js";
 import Alert from "../models/Alert.js";
-import Patient from "../models/Patient.js";
+import Patient from "../models/Patient.js"
 
 export async function getAlerts({ severity, reviewed, page = 1, limit = 20 } = {}) {
   await connectDB();
