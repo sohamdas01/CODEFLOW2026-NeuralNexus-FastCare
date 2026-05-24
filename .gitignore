@@ -3,3 +3,90 @@
 /python-nlp-service/__pycache__/
 /python-nlp-service/samples/
 /python-nlp-service/test_live_api.py
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# next
+/.next/
+/out/
+/build/
+
+# production
+/dist
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# env files
+.env
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# vercel
+.vercel
+
+# system files
+.DS_Store
+Thumbs.db
+
+# vscode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# temp files
+*.tmp
+*.temp
+
+# lock files (optional if team uses npm)
+# package-lock.json
+
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# python virtual envs
+venv/
+.venv/
+env/
+
+# jupyter
+.ipynb_checkpoints
+
+# python build
+build/
+dist/
+*.egg-info/
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# pyright
+.pyright/
+
+# NLP models/cache
+.spacy
+.cache/
+
+# uploads/temp medical files
+uploads/
+temp/
+tmp/
+
+# cloudinary temp
+*.pdf
+
+# OS generated
+desktop.ini

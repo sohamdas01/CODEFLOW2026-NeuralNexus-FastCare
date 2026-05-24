@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
 
+const EmergencyContactSchema = new mongoose.Schema(
+  {
+    name: { type: String, default: "" },
+    phone: { type: String, default: "" },
+    relation: { type: String, default: "" },
+  },
+  { _id: false }
+);
+
 const PatientSchema = new mongoose.Schema(
   {
     clerkId: {
@@ -25,12 +34,16 @@ const PatientSchema = new mongoose.Schema(
     age: {
       type: Number,
       min: 0,
-      max: 100,
+      max: 150,
     },
     bloodGroup: {
       type: String,
       enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "Unknown"],
       default: "Unknown",
+    },
+    emergencyContact: {
+      type: EmergencyContactSchema,
+      default: () => ({ name: "", phone: "", relation: "" }),
     },
     riskLevel: {
       type: String,

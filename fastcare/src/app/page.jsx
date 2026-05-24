@@ -75,7 +75,7 @@ export default function Home() {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <Button asChild  className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-6 text-lg rounded-2xl font-semibold">
-                <Link href={"/patient"}>
+                <Link href={"/patient/dashboard"}>
                 Get Started <ArrowRight className="ml-2 h-4 w-4"/>
                 </Link>
               </Button>
