@@ -1,64 +1,103 @@
-import { NextResponse } from "next/server";
+// import { NextResponse } from "next/server";
+// import { auth } from "@clerk/nextjs/server";
+// import { connectDB } from "../../../../lib/mongodb.js";
+// import Patient from "../../../../models/Patient.js";
+
+// export const dynamic = "force-dynamic";
+
+// export async function GET(request, { params }) {
+//   try {
+//     const { userId } = auth();
+//     if (!userId) {
+//       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+//     }
+
+//     await connectDB();
+
+//     const patient = await Patient.findById(params.id).lean();
+
+//     if (!patient) {
+//       return NextResponse.json({ error: "Patient not found" }, { status: 404 });
+//     }
+
+//     return NextResponse.json({ patient });
+//   } catch (error) {
+//     console.error("[Patient API] GET Error:", error.message);
+//     return NextResponse.json({ error: error.message }, { status: 500 });
+//   }
+// }
+
+// export async function PATCH(request, { params }) {
+//   try {
+//     const { userId } = auth();
+//     if (!userId) {
+//       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+//     }
+
+//     await connectDB();
+
+//     const body = await request.json();
+//     const allowedFields = ["name", "dob", "bloodGroup", "emergencyContact", "age"];
+
+//     const update = {};
+//     for (const field of allowedFields) {
+//       if (body[field] !== undefined) {
+//         update[field] = body[field];
+//       }
+//     }
+
+//     const patient = await Patient.findByIdAndUpdate(
+//       params.id,
+//       { $set: update },
+//       { new: true, runValidators: true }
+//     ).lean();
+
+//     if (!patient) {
+//       return NextResponse.json({ error: "Patient not found" }, { status: 404 });
+//     }
+
+//     return NextResponse.json({ patient });
+//   } catch (error) {
+//     console.error("[Patient API] PATCH Error:", error.message);
+//     return NextResponse.json({ error: error.message }, { status: 500 });
+//   }
+// }
+
+
 import { auth } from "@clerk/nextjs/server";
-import { connectDB } from "../../../../lib/mongodb.js";
-import Patient from "../../../../models/Patient.js";
+import connectDB from "@/lib/mongodb";
+import Summary from "@/models/Summary";
+import Patient from "@/models/Patient";
 
-export const dynamic = "force-dynamic";
-
-export async function GET(request, { params }) {
+export async function GET(req, { params }) {
   try {
     const { userId } = auth();
     if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return Response.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
     }
 
     await connectDB();
 
-    const patient = await Patient.findById(params.id).lean();
+    const summary = await Summary.findOne({
+      patientId: params.id,
+    });
 
-    if (!patient) {
-      return NextResponse.json({ error: "Patient not found" }, { status: 404 });
+    if (!summary) {
+      return Response.json({
+        wiki: null,
+        message: "No records processed yet",
+      });
     }
 
-    return NextResponse.json({ patient });
-  } catch (error) {
-    console.error("[Patient API] GET Error:", error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-}
+    return Response.json({ wiki: summary });
 
-export async function PATCH(request, { params }) {
-  try {
-    const { userId } = auth();
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    await connectDB();
-
-    const body = await request.json();
-    const allowedFields = ["name", "dob", "bloodGroup", "emergencyContact", "age"];
-
-    const update = {};
-    for (const field of allowedFields) {
-      if (body[field] !== undefined) {
-        update[field] = body[field];
-      }
-    }
-
-    const patient = await Patient.findByIdAndUpdate(
-      params.id,
-      { $set: update },
-      { new: true, runValidators: true }
-    ).lean();
-
-    if (!patient) {
-      return NextResponse.json({ error: "Patient not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({ patient });
-  } catch (error) {
-    console.error("[Patient API] PATCH Error:", error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (err) {
+    return Response.json(
+      { error: err.message },
+      { status: 500 }
+    );
   }
 }
