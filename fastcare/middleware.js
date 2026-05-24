@@ -11,4 +11,5 @@ export const config = {
     // Always run for Clerk-specific frontend API routes
     '/__clerk/(.*)',
   ],
+  runtime: "nodejs",
 }
