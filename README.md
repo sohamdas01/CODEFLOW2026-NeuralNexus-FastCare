@@ -1,10 +1,4 @@
-# FastCare - AI-Powered Medical Insights
-
----
-## 🏷️ Project Info
-- FastCare
-- An AI‑powered platform that transforms scattered medical records into clear, actionable insights for doctors.
-
+# FastCare - An AI‑powered platform that transforms scattered medical records into clear, actionable insights for doctors
 ---
 ## 👥 Team Members
 - Soham Das
