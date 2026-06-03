@@ -20,11 +20,22 @@ export async function POST(req) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    let finalIsDoctor = isDoctor || false;
+    if (finalIsDoctor) {
+      const allowedEmails = (process.env.NEXT_PUBLIC_DOCTOR_EMAILS || "")
+        .split(",")
+        .map((e) => e.trim().toLowerCase());
+      
+      if (!allowedEmails.includes(email.toLowerCase())) {
+        finalIsDoctor = false;
+      }
+    }
+
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
-      isDoctor: isDoctor || false,
+      isDoctor: finalIsDoctor,
     });
 
     return NextResponse.json({ message: "User registered successfully" }, { status: 201 });

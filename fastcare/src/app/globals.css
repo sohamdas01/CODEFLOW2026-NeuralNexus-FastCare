@@ -343,3 +343,17 @@
          font-bold text-transparent bg-clip-text 
          pb-1 pr-2;
 }
+@media print {
+
+  header,
+  footer,
+  aside,
+  nav {
+    display: none !important;
+  }
+
+  .print-area {
+    display: block !important;
+  }
+
+}

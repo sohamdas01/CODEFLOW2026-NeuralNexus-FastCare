@@ -2,6 +2,8 @@ import connectDB from "@/lib/mongodb";
 import MedicalRecord from "@/models/MedicalRecord";
 import Summary from "@/models/Summary";
 import Patient from "@/models/Patient";
+import { runContradictionCheck } from "@/lib/contradictionChecker";
+import { updateRiskLevel } from "@/lib/riskCalculator";
 
 const PYTHON_URL = "https://arrest-useable-epilepsy.ngrok-free.dev";
 const OPENAI_KEY = process.env.OPENAI_API_KEY;
@@ -104,11 +106,15 @@ export async function processWithNLP(recordId, patient, files) {
 
     // Update patient stats
     await Patient.findByIdAndUpdate(patient._id, {
-      $inc: { recordCount: 1 },
       lastVisit: new Date(),
     });
 
     await updateStatus(recordId, "completed");
+
+    // Run contradiction checks and update risk level
+    await runContradictionCheck(patient._id);
+    await updateRiskLevel(patient._id);
+
     console.log("✅ Record processing complete:", recordId);
 
   } catch (err) {

@@ -28,10 +28,37 @@ export async function GET(request) {
       query.riskLevel = riskLevel;
     }
 
-    const [patients, total] = await Promise.all([
-      Patient.find(query).sort({ lastVisit: -1, createdAt: -1 }).skip(skip).limit(limit).lean(),
-      Patient.countDocuments(query)
+    // Sort priority mapping
+    const sortPriority = {
+      critical: 4,
+      high: 3,
+      medium: 2,
+      low: 1
+    };
+
+    const patients = await Patient.aggregate([
+      { $match: query },
+      {
+        $addFields: {
+          sortRisk: {
+            $switch: {
+              branches: [
+                { case: { $eq: ["$riskLevel", "critical"] }, then: 4 },
+                { case: { $eq: ["$riskLevel", "high"] }, then: 3 },
+                { case: { $eq: ["$riskLevel", "medium"] }, then: 2 },
+                { case: { $eq: ["$riskLevel", "low"] }, then: 1 }
+              ],
+              default: 0
+            }
+          }
+        }
+      },
+      { $sort: { sortRisk: -1, lastVisit: -1, createdAt: -1 } },
+      { $skip: skip },
+      { $limit: limit }
     ]);
+
+    const total = await Patient.countDocuments(query);
 
     return NextResponse.json({
       patients,

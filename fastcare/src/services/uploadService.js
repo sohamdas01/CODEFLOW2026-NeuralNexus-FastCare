@@ -1,5 +1,5 @@
 import { connectDB } from "../lib/mongodb.js";
-import {uploadPDF} from "../lib/cloudinary.js";
+import {uploadPDF} from "../lib/Cloudinary.js";
 import MedicalRecord from "../models/MedicalRecord.js";
 import Patient from "../models/Patient.js";
 
