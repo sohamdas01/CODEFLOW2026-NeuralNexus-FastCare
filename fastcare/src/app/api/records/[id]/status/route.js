@@ -13,7 +13,6 @@ export async function GET(request, { params }) {
 
     await connectDB();
 
-    // ✅ Await params before accessing its properties
     const { id } = await params;
 
     const record = await MedicalRecord.findById(id).select("processingStatus processingError");

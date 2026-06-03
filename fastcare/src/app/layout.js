@@ -10,7 +10,7 @@ const inter = Inter({subsets:["latin"]});
 
 export const metadata = {
   title: "FastCare",
-  description: "A healthcare management system",
+  description: "A AI Powered healthcare management system",
 };
 
 export default function RootLayout({ children }) {

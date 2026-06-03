@@ -5,7 +5,7 @@ export default function EmergencyCard({ patient, wiki }) {
   const handlePrint = () => window.print();
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto print-area">
       {/* Print button */}
       <div className="flex justify-end mb-4 print:hidden">
         <button

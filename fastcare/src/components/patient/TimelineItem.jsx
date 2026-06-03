@@ -125,7 +125,7 @@ export default function TimelineItem({ record, isLast }) {
 
             {record.cloudinaryUrl && (
               <a
-                href={record.cloudinaryUrl}
+                href={`/api/records/${record._id}/pdf`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 text-[#6b7280] hover:text-green-400 text-xs transition-colors"

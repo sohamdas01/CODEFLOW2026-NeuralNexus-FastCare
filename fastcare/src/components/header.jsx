@@ -12,15 +12,21 @@ const Header = () => {
   return (
     <header className="fixed top-0 w-full border-b border-[#1f2d1f] bg-[#0a0a0a]/80 backdrop-blur-md z-50">
       <nav className="w-full px-6 lg:px-10 h-16 flex items-center justify-between">
-        <Link href="/">
-          <Image
-            src="/image.png"
-            alt="FastCare"
-            width={180}
-            height={50}
-            className="h-10 w-auto object-contain"
-          />
-        </Link>
+        <div className="flex gap-2 items-center">
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/image.png"
+              alt="FastCare"
+              width={180}
+              height={50}
+              className="h-10 w-auto object-contain"
+            />
+            <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-900 to-green-300">
+              FastCare
+            </h2>
+          </Link>
+        </div>
+
 
         <div className="flex items-center gap-2">
 
