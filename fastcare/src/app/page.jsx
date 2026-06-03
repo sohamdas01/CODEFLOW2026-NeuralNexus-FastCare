@@ -45,7 +45,7 @@ export default function Home() {
   const router = useRouter();
 
   function handleGetStarted() {
-    if(!isLoaded) return;
+    if (!isLoaded) return;
     if (user) {
       router.push("/dashboard");
     } else {
@@ -67,9 +67,10 @@ export default function Home() {
               </Badge>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                A healthcare <br />
-                <span className="gradient-title">management system</span>
+                Turning fragmented records into <br className="hidden md:block" />
+                 <span className="gradient-title">life‑saving insights</span>
               </h1>
+
 
               <p className="mt-6 text-muted-foreground text-lg md:text-xl max-w-md leading-relaxed">
                 FastCare transforms fragmented medical records into clear,
@@ -85,8 +86,8 @@ export default function Home() {
                   {!isLoaded
                     ? "Loading..."
                     : user
-                    ? "Go to Dashboard"
-                    : "Get Started"}
+                      ? "Go to Dashboard"
+                      : "Get Started"}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
 
@@ -95,7 +96,7 @@ export default function Home() {
                   <Button
                     asChild
                     variant="outline"
-                    className="border-[#1f2d1f] text-[#0a0a0a] hover:border-green-800 px-8 py-6 text-lg rounded-2xl"
+                   className="border-[#1f2d1f] text-gray-500 hover:border-green-800 hover:text-green-400 px-8 py-6 text-lg rounded-2xl"
                   >
                     <Link href="/sign-in">Sign In</Link>
                   </Button>
