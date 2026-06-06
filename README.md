@@ -142,5 +142,5 @@ npm run dev
 ```
 
 ---
-## 🎥 Demo Video
-[keep blank i will fill later]
+## 🎥 Demo Video:
+https://www.loom.com/share/3871b793e4e04dddaf23625832f49ec1
