@@ -5,7 +5,7 @@ import Patient from "@/models/Patient";
 import { runContradictionCheck } from "@/lib/contradictionChecker";
 import { updateRiskLevel } from "@/lib/riskCalculator";
 
-const PYTHON_URL = "https://arrest-useable-epilepsy.ngrok-free.dev";
+const PYTHON_URL = "https://fastcare-data-pipeline.onrender.com";
 const OPENAI_KEY = process.env.OPENAI_API_KEY;
 
 async function updateStatus(recordId, status, extra = {}) {
